@@ -174,3 +174,5 @@ und an den [Styleguide von TypeScript](https://github.com/Microsoft/TypeScript/w
 
 Das Package _i18n_ innerhalb von Angular 2 ist noch nicht fertig. Bei Bedarf kann
 [_ng2-translate_](https://github.com/ocombe/ng2-translate) benutzt werden.
+"# angular_swe" 
+"# angular_swe" 
