@@ -1,0 +1,17 @@
+# Abhaengige Dateien durch npm oder typings
+node_modules
+typings
+typings.json
+
+# Uebersetzte oder generierte Dateien
+dist
+tmp
+doc
+
+# IDEs und Editoren
+.vscode
+.idea
+
+# System Dateien
+.DS_Store
+Thumbs.db

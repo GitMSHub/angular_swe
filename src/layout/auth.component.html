@@ -1,0 +1,60 @@
+<!--
+   Copyright (C) 2015 - 2017 Juergen Zimmermann, Hochschule Karlsruhe
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="card-block ml-5" *ngIf="notLoggedIn; else loggedIn">
+    <form (submit)="onLogin()" role="form">
+        <div class="form-group row">
+            <label for="usernameInput"
+                class="col col-8 form-control-label text-sm-right">
+                <small>Benutzername</small>
+            </label>
+            <div class="col col-3">
+                <input id="usernameInput" type="search"
+                    class="form-control form-control-sm"
+                    tabindex="1" autocomplete="off"
+                    required [(ngModel)]="username" name="username">
+            </div>
+            <div class="col col-1">
+                <button class="btn btn-primary btn-sm" tabindex="3">
+                    Login
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="passwordInput"
+                class="col col-8 form-control-label text-sm-right">
+                <small>Passwort</small>
+            </label>
+            <div class="col col-3">
+                <input id="passwordInput" type="password"
+                    class="form-control form-control-sm"
+                    tabindex="2" autocomplete="off" required
+                    [(ngModel)]="password" name="password">
+            </div>
+            <div class="col col-1"></div>
+        </div>
+    </form>
+</div>
+
+<ng-template #loggedIn>
+    <div class="ml-5">
+        <button class="btn btn-primary ml-1" (click)="onLogout()">
+            <i class="fa fa-sign-out mr-1"></i>Logout
+        </button>
+    </div>
+</ng-template>
