@@ -19,5 +19,5 @@
 //  - mehrere Module aggregieren und diese exportieren
 //  - kuenftig weniger Import-Anweisungen
 
-export * from './buch'
-export * from './buch.validator'
+export * from './kunde'
+export * from './kunde.validator'

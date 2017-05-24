@@ -19,7 +19,7 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core'
 import {Title} from '@angular/platform-browser'
 
 import {log} from '../../shared'
-import {BuchService} from '../shared/buch.service'
+import {KundeService} from '../shared/kunde.service'
 
 /**
  * Komponente mit dem Tag &lt;hs-liniendiagramm&gt; zur Visualisierung
@@ -37,7 +37,7 @@ export default class LiniendiagrammComponent implements AfterViewInit {
     @ViewChild('chartCanvas') chartCanvas: ElementRef
 
     constructor(
-        private readonly buchService: BuchService,
+        private readonly kundeService: KundeService,
         private readonly titleService: Title) {
         console.log('LiniendiagrammComponent.constructor()')
     }
@@ -50,7 +50,7 @@ export default class LiniendiagrammComponent implements AfterViewInit {
     @log
     ngAfterViewInit() {
         const chartElement: HTMLCanvasElement = this.chartCanvas.nativeElement
-        this.buchService.createLinearChart(chartElement)
+        this.kundeService.createLinearChart(chartElement)
         this.titleService.setTitle('Liniendiagramm')
     }
 

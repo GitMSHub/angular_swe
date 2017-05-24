@@ -21,46 +21,46 @@ import {Title} from '@angular/platform-browser'
 import ROOT_ROUTES from '../app/root.routing'
 import SharedModule from '../shared/shared.module'
 
-import CreateBuchComponent from './create-buch/create-buch.component'
-import CreateBuchGuard from './create-buch/create-buch.guard'
-import DetailsBuchComponent from './details-buch/details-buch.component'
+import CreateKundeComponent from './create-kunde/create-kunde.component'
+import CreateKundeGuard from './create-kunde/create-kunde.guard'
+import DetailsKundeComponent from './details-kunde/details-kunde.component'
 import DetailsSchlagwoerterComponent from './details-buch/details-schlagwoerter.component'
 import DetailsStammdatenComponent from './details-buch/details-stammdaten.component'
 import BalkendiagrammComponent from './diagramme/balkendiagramm.component'
 import LiniendiagrammComponent from './diagramme/liniendiagramm.component'
 import TortendiagrammComponent from './diagramme/tortendiagramm.component'
-import {BuchService} from './shared/buch.service'
-import SucheBuecherComponent from './suche-buecher/suche-buecher.component'
-import SuchergebnisComponent from './suche-buecher/suchergebnis.component'
-import SuchkriterienComponent from './suche-buecher/suchkriterien.component'
-import UpdateBuchComponent from './update-buch/update-buch.component'
+import {KundeService} from './shared/kunde.service'
+import SucheKundenComponent from './suche-kunden/suche-kunden.component'
+import SuchergebnisComponent from './suche-kunden/suchergebnis.component'
+import SuchkriterienComponent from './suche-kunden/suchkriterien.component'
+import UpdateKundeComponent from './update-kunde/update-kunde.component'
 import UpdateSchlagwoerterComponent from './update-buch/update-schlagwoerter.component'
 import UpdateStammdatenComponent from './update-buch/update-stammdaten.component'
 
 const komponentenExport: Array<Type<any>> = [
-    CreateBuchComponent, DetailsBuchComponent, BalkendiagrammComponent,
-    LiniendiagrammComponent, TortendiagrammComponent, SucheBuecherComponent,
-    UpdateBuchComponent,
+    CreateKundeComponent, DetailsKundeComponent, BalkendiagrammComponent,
+    LiniendiagrammComponent, TortendiagrammComponent, SucheKundenComponent,
+    UpdateKundeComponent,
 ]
 
 const komponentenIntern: Array<Type<any>> = [
     DetailsSchlagwoerterComponent, DetailsStammdatenComponent,
-    SucheBuecherComponent, SuchergebnisComponent, SuchkriterienComponent,
+    SucheKundenComponent, SuchergebnisComponent, SuchkriterienComponent,
     UpdateSchlagwoerterComponent, UpdateStammdatenComponent,
 ]
 
 // Ein Modul enthaelt logisch zusammengehoerige Funktionalitaet.
 // Exportierte Komponenten koennen bei einem importierenden Modul in dessen
 // Komponenten innerhalb deren Templates (= HTML-Fragmente) genutzt werden.
-// BuchModule ist ein "FeatureModule", das Features fuer Buecher bereitstellt
+// KundeModule ist ein "FeatureModule", das Features fuer Kunden bereitstellt
 @NgModule({
     imports: [SharedModule, SharedModule.forRoot(), ROOT_ROUTES],
     declarations: [...komponentenExport, ...komponentenIntern],
-    // BuchService mit eigenem DI-Context innerhalb des Moduls, d.h.
-    // es kann in anderen Moduln eine eigene Instanz von BuchService geben.
+    // KundeService mit eigenem DI-Context innerhalb des Moduls, d.h.
+    // es kann in anderen Moduln eine eigene Instanz von KundeService geben.
     // Title als Singleton aus dem SharedModule
-    providers: [BuchService, CreateBuchGuard, Title],
+    providers: [KundeService, CreateKundeGuard, Title],
     exports: komponentenExport,
 })
-export default class BuchModule {
+export default class KundeModule {
 }

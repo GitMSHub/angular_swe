@@ -23,11 +23,11 @@ import {isBlank} from '../../shared'
  * Die Validierungsfunktionen sind f&uuml;r Formulare, in denen Daten erfasst
  * oder ge&auml;ndert werden.
  */
-export class BuchValidator {
+export class KundeValidator {
     // Rueckgabewert null bedeutet valid
 
     /**
-     * Validierung, ob die Email zum Buch plausibel ist.
+     * Validierung, ob die Email zum Kunde plausibel ist.
      * @param control Das Control-Objekt innerhalb eines Formulars
      * @return null, wenn die Email valide ist. Ansonsten ein JSON-Objekt
      *         mit den Verst&ouml;&szlig;en.

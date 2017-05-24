@@ -19,15 +19,15 @@
 
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <div class="navbar-nav mr-auto">
-        <a [routerLink]="'/sucheBuecher'" class="nav-item nav-link">
+        <a [routerLink]="'/sucheKunden'" class="nav-item nav-link">
             <i class="fa fa-search"></i>
             <span class="ml-1">Suche</span>
         </a>
 
-        <a [routerLink]="'/createBuch'" class="nav-item nav-link"
+        <a [routerLink]="'/createKunde'" class="nav-item nav-link"
             *ngIf="isAdmin">
-            <i class="fa fa-book"></i>
-            <span class="ml-1">Neues Buch</span>
+            <i class="fa fa-customer"></i>
+            <span class="ml-1">Neuer Kunde</span>
         </a>
 
         <div class="nav-item dropdown" *ngIf="isAdmin">
