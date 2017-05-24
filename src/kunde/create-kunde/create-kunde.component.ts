@@ -24,19 +24,19 @@ import {Router} from '@angular/router'
 
 import {HOME_PATH} from '../../app/root.routing'
 import {isPresent, log} from '../../shared'
-import {Buch, BuchValidator} from '../shared'
-import {BuchService} from '../shared/buch.service'
+import {Kunde, KundeValidator} from '../shared'
+import {KundeService} from '../shared/kunde.service'
 
 /**
- * Komponente mit dem Tag &lt;create-buch&gt;, um das Erfassungsformular
- * f&uuml;r ein neues Buch zu realisieren.
+ * Komponente mit dem Tag &lt;create-kunde&gt;, um das Erfassungsformular
+ * f&uuml;r einen neues Kunden zu realisieren.
  */
 @Component({
     // moduleId: module.id,
-    selector: 'hs-create-buch',
-    templateUrl: './create-buch.component.html',
+    selector: 'hs-create-kunde',
+    templateUrl: './create-kunde.component.html',
 })
-export default class CreateBuchComponent implements OnInit {
+export default class CreateKundeComponent implements OnInit {
     form: FormGroup
 
     // Keine Vorbelegung bzw. der leere String, da es Placeholder gibt
@@ -44,30 +44,33 @@ export default class CreateBuchComponent implements OnInit {
     //    serverseitig mittels Request/Response
     //    clientseitig bei den Ereignissen keyup, change, ...
     // Ein Endbenutzer bewirkt staendig einen neuen Fehlerstatus
-    readonly titel: FormControl = new FormControl(null, Validators.compose([
+    readonly nachname: FormControl = new FormControl(null, Validators.compose([
         Validators.required, Validators.minLength(2),
         Validators.pattern(/^\w.*$/),
     ]))
-    readonly rating: FormControl = new FormControl(null)
-    readonly art: FormControl = new FormControl('DRUCKAUSGABE')
-    readonly verlag: FormControl = new FormControl(null)
-    readonly preis: FormControl = new FormControl(null)
-    readonly rabatt: FormControl = new FormControl(null)
-    readonly datum: FormControl = new FormControl(null)
-    readonly lieferbar: FormControl = new FormControl(false)
-    readonly javascript: FormControl = new FormControl(false)
-    readonly typescript: FormControl = new FormControl(false)
     readonly email: FormControl =
-        new FormControl(null, [Validators.required, BuchValidator.email] as any)
+        new FormControl(null, [Validators.required, KundeValidator.email] as any)
+
+    readonly newsletter: FormControl = new FormControl(false)
+    readonly geburtsdatum: FormControl = new FormControl(null)
+    readonly umsatz: FormControl = new FormControl(null)
+    readonly waehrung: FormControl = new FormControl('EUR')
+    readonly homepage: FormControl = new FormControl(null)
+    readonly geschlecht: FormControl = new FormControl('M')
+    readonly familienstand: FormControl = new FormControl('L')
+    readonly adresse: FormControl = new FormControl(null)
+    readonly lesen: FormControl = new FormControl(false)
+    readonly sport: FormControl = new FormControl(false)
+    readonly reisen: FormControl = new FormControl(false)
 
     showWarning = false
     fertig = false
 
     constructor(
         private formBuilder: FormBuilder,
-        private buchService: BuchService, private router: Router,
+        private kundeService: KundeService, private router: Router,
         private titleService: Title) {
-        console.log('CreateBuchComponent.constructor()')
+        console.log('CreateKundeComponent.constructor()')
         if (isPresent(router)) {
             console.log('Injizierter Router:', router)
         }
@@ -80,25 +83,27 @@ export default class CreateBuchComponent implements OnInit {
     ngOnInit() {
         this.form = this.formBuilder.group({
             // siehe formControlName innerhalb @Component({template: ...})
-            titel: this.titel,
-            rating: this.rating,
-            art: this.art,
-            verlag: this.verlag,
-            preis: this.preis,
-            rabatt: this.rabatt,
-            datum: this.datum,
-            lieferbar: this.lieferbar,
-            javascript: this.javascript,
-            typescript: this.typescript,
+            nachname: this.nachname,
             email: this.email,
+            newsletter: this.newsletter,
+            geburtsdatum: this.geburtsdatum,
+            umsatz: this.umsatz,
+            waehrung: this.waehrung,
+            homepage: this.homepage,
+            geschlecht: this.geschlecht,
+            familienstand: this.familienstand,
+            adresse: this.adresse,
+            lesen: this.lesen,
+            sport: this.sport,
+            reisen: this.reisen,
         })
 
-        this.titleService.setTitle('Neues Buch')
+        this.titleService.setTitle('Neuer Kunde')
     }
 
     /**
      * Die Methode <code>save</code> realisiert den Event-Handler, wenn das
-     * Formular abgeschickt wird, um ein neues Buch anzulegen.
+     * Formular abgeschickt wird, um einen neuen Kunden anzulegen.
      * @return false, um das durch den Button-Klick ausgel&ouml;ste Ereignis
      *         zu konsumieren.
      */
@@ -117,16 +122,16 @@ export default class CreateBuchComponent implements OnInit {
             return false
         }
 
-        const neuesBuch = Buch.fromForm(this.form.value)
-        console.log('neuesBuch=', neuesBuch)
+        const neuerKunde = Kunde.fromForm(this.form.value)
+        console.log('neuerKunde=', neuerKunde)
 
         const successFn: (location: string|undefined) => void =
             (location = undefined) => {
                 console.log(
-                    `CreateBuch.onSave(): successFn(): location: ${location}`)
+                    `CreateKunde.onSave(): successFn(): location: ${location}`)
                 // TODO Das Response-Objekt enthaelt im Header NICHT "Location"
                 console.log(
-                    `CreateBuch.onSave(): successFn(): navigate: ${HOME_PATH}`)
+                    `CreateKunde.onSave(): successFn(): navigate: ${HOME_PATH}`)
                 this.fertig = true
                 this.showWarning = false
                 this.router.navigate([HOME_PATH])
@@ -134,12 +139,12 @@ export default class CreateBuchComponent implements OnInit {
         const errorFn: (
             status: number,
             text: string|undefined) => void = (status, text = undefined) => {
-            console.log(`CreateBuch.onSave(): errorFn(): status: ${status}`)
+            console.log(`CreateKunde.onSave(): errorFn(): status: ${status}`)
             if (isPresent(text)) {
-                console.log(`CreateBuch.onSave(): errorFn(): text: ${text}`)
+                console.log(`CreateKunde.onSave(): errorFn(): text: ${text}`)
             }
         }
-        this.buchService.save(neuesBuch, successFn, errorFn)
+        this.kundeService.save(neuerKunde, successFn, errorFn)
 
         // damit das (Submit-) Ereignis konsumiert wird und nicht an
         // uebergeordnete Eltern-Komponenten propagiert wird bis zum Refresh
@@ -148,6 +153,6 @@ export default class CreateBuchComponent implements OnInit {
     }
 
     toString() {
-        return 'CreateBuchComponent'
+        return 'CreateKundeComponent'
     }
 }

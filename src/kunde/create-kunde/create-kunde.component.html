@@ -16,7 +16,7 @@
 -->
 <div class="card">
     <div class="card-header bg-primary">
-        <span class="ml-1 font-weight-bold">Neues Buch</span>
+        <span class="ml-1 font-weight-bold">Neuer Kunde</span>
     </div>
 
     <div class="card-block">
@@ -45,168 +45,146 @@
             </div>
 
             <div class="form-group row"
-                [class.has-danger]="!titel.valid && titel.touched">
-                <label for="titelInput" class="col col-2 form-control-label">
-                    Titel *
+                [class.has-danger]="!nachname.valid && nachname.touched">
+                <label for="nachnameInput" class="col col-2 form-control-label">
+                    Nachname *
                 </label>
                 <div class="col col-10">
-                    <input id="titelInput"
-                        placeholder="Titel"
+                    <input id="nachnameInput"
+                        placeholder="Nachname"
                         class="form-control"
                         autofocus
-                        formControlName="titel">
+                        formControlName="nachname">
                     <div class="fa fa-exclamation-circle form-control-feedback"
-                        *ngIf="!titel.valid && titel.touched">
-                        Ein Buchtitel muss mit einem Buchstaben oder einer
-                        Ziffer beginnen und mindestens 2 Zeichen lang sein.
+                        *ngIf="!nachname.valid && nachname.touched">
+                        Ein Nachname eines Kundens muss mit einem Buchstaben beginnen und mindestens 2 Zeichen lang sein.
                     </div>
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col col-2 form-control-label">Bewertung</label>
+            <div class="form-group row"
+                <label for="homepageInput" class="col col-2 form-control-label">
+                    Homepage *
+                </label>
                 <div class="col col-10">
-                    <select class="form-control" formControlName="rating">
-                        <option value="">Bewertung ausw&auml;hlen</option>
-                        <optgroup label="Hoch">
-                            <option value="5">5</option>
-                        </optgroup>
-                        <optgroup label="Mittel">
-                            <option value="4">4</option>
-                            <option value="3">3</option>
-                        </optgroup>
-                        <optgroup label="Niedrig">
-                            <option value="2">2</option>
-                            <option value="1">1</option>
-                        </optgroup>
-                </select>
+                    <input id="homepageInput"
+                        placeholder="Homepage"
+                        class="form-control"
+                        formControlName="homepage">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col col-2 form-control-label">Art *</label>
+                <label class="col col-2 form-control-label">Geschlecht *</label>
                 <div class="col col-10">
                     <div class="radio">
                         <label class="radio-inline">
-                            <input type="radio" formControlName="art"
-                                   name="art" value="DRUCKAUSGABE"> Druckausgabe
+                            <input type="radio" formControlName="geschlecht"
+                                   name="geschlecht" value="M"> Maennlich
                         </label>
                     </div>
                     <div class="radio">
                         <label class="radio-inline">
-                            <input type="radio" formControlName="art"
-                                   name="art" value="KINDLE"> Kindle
+                            <input type="radio" formControlName="geschlecht"
+                                   name="geschlecht" value="W"> Weiblich
                         </label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group row"
-                [class.has-danger]="!verlag.valid && verlag.touched">
-                <label class="col col-2 form-control-label">Verlag *</label>
+                [class.has-danger]="!familienstand.valid && familienstand.touched">
+                <label class="col col-2 form-control-label">Familienstand *</label>
                 <div class="col col-10">
                     <select class="form-control form-control-danger"
-                            formControlName="verlag" required>
-                        <option value="">Einen Verlag ausw&auml;hlen</option>
-                        <option value="IWI_VERLAG">Iwi Verlag</option>
-                        <option value="HSKA_VERLAG">Hska Verlag</option>
+                            formControlName="familienstand" required>
+                        <option value="">Einen Familienstand ausw&auml;hlen</option>
+                        <option value="L">Ledig</option>
+                        <option value="VH">Verheiratet</option>
+                        <option value="G">Geschieden</option>
+                        <option value="VW">Verwittet</option>
                     </select>
                     <!-- http://www.quackit.com/bootstrap/bootstrap_4/tutorial/bootstrap_dropdowns.cfm -->
                     <div class="fa fa-exclamation-circle form-control-feedback"
-                        *ngIf="!verlag.valid && verlag.touched">
-                        Ein Verlag ist erforderlich.
+                        *ngIf="!familienstand.valid && familienstand.touched">
+                        Ein Familienstand ist erforderlich.
                     </div>
                 </div>
             </div>
 
             <div class="form-group row"
-                [class.has-danger]="!preis.valid && preis.touched">
-                <label for="preisInput" class="col col-2 form-control-label">
-                    Preis *
+                [class.has-danger]="!umsatz.valid && umsatz.touched">
+                <label for="umsatzInput" class="col col-2 form-control-label">
+                    Umsatz *
                 </label>
                 <div class="col col-10">
                     <div class="input-group">
-                        <input id="preisInput"
-                            placeholder="Preis, z.B. 123.45"
+                        <input id="umsatzInput"
+                            placeholder="Umsatz, z.B. 123.45"
                             required
                             class="form-control form-control-danger"
                             type="number"
-                            formControlName="preis"/>
+                            formControlName="umsatz"/>
                         <span class="input-group-addon">EUR</span>
                     </div>
                     <div class="fa fa-exclamation-circle form-control-feedback"
-                        *ngIf="!preis.valid && preis.touched">
-                        Ein Preis muss eingegeben werden, z.B. 123.45
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group row"
-                [class.has-danger]="!rabatt.valid && rabatt.touched">
-                <label for="rabattInput" class="col col-2 form-control-label">
-                    Rabatt *
-                </label>
-                <div class="col col-10">
-                    <div class="input-group">
-                        <input id="rabattInput"
-                            placeholder="Rabatt in Prozent, z.B. 5.67"
-                            required
-                            class="form-control form-control-danger"
-                            type="number"
-                            formControlName="rabatt"/>
-                        <span class="input-group-addon">%</span>
-                    </div>
-                    <div class="fa fa-exclamation-circle form-control-feedback"
-                        *ngIf="!rabatt.valid && rabatt.touched">
-                        Ein Rabatt muss in Prozent eingegeben werden, z.B. 5.67
+                        *ngIf="!umsatz.valid && umsatz.touched">
+                        Ein Wert für den Umsatz muss eingegeben werden, z.B. 123.45
                     </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="datumInput" class="col col-2 form-control-label">
-                    Datum
+                <label for="geburtsdatumInput" class="col col-2 form-control-label">
+                    Geburtsdatum
                 </label>
                 <div class="col col-10">
-                    <input id="datumInput"
+                    <input id="geburtsdatumInput"
                         class="form-control"
                         type="date"
-                        formControlName="datum"/>
+                        formControlName="geburtsdatum"/>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="lieferbarInput" class="col col-2 form-control-label">
-                    Lieferbar?
+                <label for="newsletterInput" class="col col-2 form-control-label">
+                    Newsletter?
                 </label>
                 <div class="col col-10">
                     <div class="checkbox">
                         <label>
-                            <input id="lieferbarInput" type="checkbox"
-                                   formControlName="lieferbar"/>
+                            <input id="newsletterInput" type="checkbox"
+                                   formControlName="newsletter"/>
                         </label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="schlagwoerterInput"
+                <label for="interessenInput"
                        class="col col-2 form-control-label">
-                    Schlagw&ouml;rter
+                    Interessen
                 </label>
                 <div class="col col-10">
                     <div class="checkbox">
                         <label>
                             <input type="checkbox"
-                                   formControlName="javascript"/>
-                            JavaScript
+                                   formControlName="L"/>
+                            Lesen
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox"
-                                   formControlName="typescript"/>
-                            TypeScript
+                                   formControlName="S"/>
+                            Sport
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"
+                                   formControlName="R"/>
+                            Reisen
                         </label>
                     </div>
                 </div>
