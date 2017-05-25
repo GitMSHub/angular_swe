@@ -20,11 +20,11 @@ import {animate, Component, Input, OnInit, state, style, transition, trigger} fr
 // Bereitgestellt durch das RouterModule (s. Re-Export im SharedModule)
 import {Router} from '@angular/router'
 
-import {DETAILS_BUCH_PATH} from '../../app/root.routing'
+import {DETAILS_KUNDE_PATH} from '../../app/root.routing'
 import {AuthService} from '../../auth/auth.service'
 import {isString, log} from '../../shared'
-import {Buch} from '../shared'
-import {BuchService} from '../shared/buch.service'
+import {Kunde} from '../shared'
+import {KundeService} from '../shared/kunde.service'
 
 // https://angular.io/docs/ts/latest/guide/animations.html
 // auf der Basis von des "Web Animations API"
@@ -57,7 +57,7 @@ const rowOut = trigger('rowOut', [
 /**
  * Komponente f&uuml;r das Tag <code>hs-suchergebnis</code>, um zun&auml;chst
  * das Warten und danach das Ergebnis der Suche anzuzeigen, d.h. die gefundenen
- * B&uuml;cher oder eine Fehlermeldung.
+ * Kunden oder eine Fehlermeldung.
  */
 @Component({
     selector: 'hs-suchergebnis',
@@ -72,12 +72,12 @@ export default class SuchergebnisComponent implements OnInit {
     // Decorator fuer ein Attribut. Siehe InputMetadata
     @Input() waiting: boolean
 
-    buecher: Array<Buch> = []
+    kunden: Array<Kunde> = []
     errorMsg: string|null = null
     isAdmin: boolean
 
     constructor(
-        private readonly buchService: BuchService,
+        private readonly kundeService: KundeService,
         private readonly router: Router,
         private readonly authService: AuthService) {
         console.log('SuchergebnisComponent.constructor()')
@@ -92,36 +92,36 @@ export default class SuchergebnisComponent implements OnInit {
     // IntelliSense bei der Verwendung von TypeScript.
     @log
     ngOnInit() {
-        this.observeBuecher()
+        this.observeKunden()
         this.observeError()
         this.isAdmin = this.authService.isAdmin()
     }
 
     /**
-     * Das ausgew&auml;hlte bzw. angeklickte Buch in der Detailsseite anzeigen.
-     * @param buch Das ausgew&auml;hlte Buch
+     * Der ausgew&auml;hlte bzw. angeklickte Kunde in der Detailsseite anzeigen.
+     * @param kunde Der ausgew&auml;hlte Kunde
      */
     @log
-    onSelect(buch: Buch) {
-        const path = `/${DETAILS_BUCH_PATH}/${buch._id}`
+    onSelect(kunde: Kunde) {
+        const path = `/${DETAILS_KUNDE_PATH}/${kunde._id}`
         console.log(`path=${path}`)
         this.router.navigate([path])
     }
 
     /**
-     * Das ausgew&auml;hlte bzw. angeklickte Buch l&ouml;schen.
-     * @param buch Das ausgew&auml;hlte Buch
+     * Den ausgew&auml;hlte bzw. angeklickte Kunde l&ouml;schen.
+     * @param kunde Der ausgew&auml;hlte Kunde
      */
     @log
-    onRemove(buch: Buch) {
+    onRemove(kunde: Kunde) {
         const successFn: () => void | undefined = undefined as any
         const errorFn: (status: number) => void = status => {
             console.error(`Fehler beim Loeschen: status=${status}`)
         }
-        this.buchService.remove(buch, successFn, errorFn)
-        if (this.buecher !== null) {
-            const tmp = this.buecher as Array<Buch>
-            this.buecher = tmp.filter((b: Buch) => b._id !== buch._id)
+        this.kundeService.remove(kunde, successFn, errorFn)
+        if (this.kunden !== null) {
+            const tmp = this.kunden as Array<Kunde>
+            this.kunden = tmp.filter((k: Kunde) => k._id !== kunde._id)
         }
     }
 
@@ -130,29 +130,29 @@ export default class SuchergebnisComponent implements OnInit {
     }
 
     /**
-     * Methode, um den injizierten <code>BuchService</code> zu beobachten,
-     * ob es gefundene bzw. darzustellende B&uuml;cher gibt, die in der
-     * Kindkomponente f&uuml;r das Tag <code>gefundene-buecher</code>
+     * Methode, um den injizierten <code>KundeService</code> zu beobachten,
+     * ob es gefundene bzw. darzustellende Kunden gibt, die in der
+     * Kindkomponente f&uuml;r das Tag <code>gefundene-kunden</code>
      * dargestellt werden. Diese private Methode wird in der Methode
      * <code>ngOnInit</code> aufgerufen.
      */
-    private observeBuecher() {
-        const next: (buecher: Array<Buch>) => void = buecher => {
+    private observeKunden() {
+        const next: (kunden: Array<Kunde>) => void = kunden => {
             // zuruecksetzen
             this.waiting = false
             this.errorMsg = null
 
-            this.buecher = buecher
-            console.log('SuchErgebnisComponent.observeBuecher: this.buecher=',
-                        this.buecher)
+            this.kunden = kunden
+            console.log('SuchErgebnisComponent.observeKunden: this.kunden=',
+                        this.kunden)
         }
 
         // Funktion als Funktionsargument, d.h. Code als Daten uebergeben
-        this.buchService.observeBuecher(next)
+        this.kundeService.observeKunden(next)
     }
 
     /**
-     * Methode, um den injizierten <code>BuchService</code> zu beobachten,
+     * Methode, um den injizierten <code>KundeService</code> zu beobachten,
      * ob es bei der Suche Fehler gibt, die in der Kindkomponente f&uuml;r das
      * Tag <code>error-message</code> dargestellt werden. Diese private Methode
      * wird in der Methode <code>ngOnInit</code> aufgerufen.
@@ -161,7 +161,7 @@ export default class SuchergebnisComponent implements OnInit {
         const next: (err: string|number) => void = err => {
             // zuruecksetzen
             this.waiting = false
-            this.buecher = []
+            this.kunden = []
 
             console.log('SuchErgebnisComponent.observeError: err=', err)
             if (err === null) {
@@ -176,7 +176,7 @@ export default class SuchergebnisComponent implements OnInit {
 
             switch (err) {
                 case 404:
-                    this.errorMsg = 'Keine Bücher gefunden.'
+                    this.errorMsg = 'Keine Kunden gefunden.'
                     break
                 default:
                     this.errorMsg = 'Ein Fehler ist aufgetreten.'
@@ -185,7 +185,7 @@ export default class SuchergebnisComponent implements OnInit {
             console.log(`SuchErgebnisComponent.errorMsg: ${this.errorMsg}`)
         }
 
-        this.buchService.observeError(next)
+        this.kundeService.observeError(next)
     }
 }
 

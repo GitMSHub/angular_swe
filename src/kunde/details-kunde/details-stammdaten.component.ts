@@ -18,7 +18,7 @@
 import {Component, Input, OnInit} from '@angular/core'
 
 import {log} from '../../shared'
-import {Buch} from '../shared'
+import {Kunde} from '../shared'
 
 /**
  * Komponente f&uuml;r das Tag <code>hs-stammdaten</code>
@@ -28,9 +28,9 @@ import {Buch} from '../shared'
     templateUrl: './details-stammdaten.component.html',
 })
 export default class DetailsStammdatenComponent implements OnInit {
-    // Property Binding: <hs-details-stammdaten [buch]="...">
+    // Property Binding: <hs-details-stammdaten [kunde]="...">
     // Decorator fuer ein Attribut. Siehe InputMetadata
-    @Input() buch: Buch
+    @Input() kunde: Kunde
 
     constructor() {
         console.log('DetailsStammdatenComponent.constructor()')
@@ -38,7 +38,7 @@ export default class DetailsStammdatenComponent implements OnInit {
 
     @log
     ngOnInit() {
-        console.log('buch=', this.buch)
+        console.log('kunde=', this.kunde)
     }
 
     toString() {

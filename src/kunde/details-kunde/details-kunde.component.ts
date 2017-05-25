@@ -22,40 +22,40 @@ import {ActivatedRoute, Params} from '@angular/router'
 
 import {AuthService, ROLLE_ADMIN} from '../../auth/auth.service'
 import {isString, log} from '../../shared'
-import {Buch} from '../shared'
-import {BuchService} from '../shared/buch.service'
+import {Kunde} from '../shared'
+import {KundeService} from '../shared/kunde.service'
 
 /**
- * Komponente f&uuml;r das Tag <code>hs-details-buch</code>
+ * Komponente f&uuml;r das Tag <code>hs-details-kunde</code>
  */
 @Component({
-    selector: 'hs-details-buch',
-    templateUrl: './details-buch.component.html',
+    selector: 'hs-details-kunde',
+    templateUrl: './details-kunde.component.html',
 })
-export default class DetailsBuchComponent implements OnInit {
+export default class DetailsKundeComponent implements OnInit {
     waiting = false
-    buch: Buch|null = null
+    kunde: Kunde|null = null
     errorMsg: string|null = null
     isAdmin: boolean
 
     constructor(
-        private buchService: BuchService, private titleService: Title,
+        private kundeService: KundeService, private titleService: Title,
         private route: ActivatedRoute, private authService: AuthService) {
-        console.log('DetailsBuchComponent.constructor()')
+        console.log('DetailsKundeComponent.constructor()')
     }
 
     @log
     ngOnInit() {
-        // Die Beobachtung starten, ob es ein zu darzustellendes Buch oder
+        // Die Beobachtung starten, ob es einen zu darzustellenden Kunden oder
         // einen Fehler gibt.
-        this.observeBuch()
+        this.observeKunde()
         this.observeError()
 
-        // Pfad-Parameter aus /detailsBuch/:id
+        // Pfad-Parameter aus /detailsKunde/:id
         // Mongo-ID ist ein String
         const next: (params: Params) => void = params => {
             console.log('params=', params)
-            this.buchService.findById(params.id)
+            this.kundeService.findById(params.id)
         }
         // ActivatedRoute.params ist ein Observable
         this.route.params.subscribe(next)
@@ -66,20 +66,20 @@ export default class DetailsBuchComponent implements OnInit {
     }
 
     toString() {
-        return 'DetailsBuchComponent'
+        return 'DetailsKundeComponent'
     }
 
-    private observeBuch() {
-        const next: (buch: Buch) => void = buch => {
+    private observeKunde() {
+        const next: (kunde: Kunde) => void = kunde => {
             this.waiting = false
-            this.buch = buch
-            console.log('DetailsBuchComponent.buch=', this.buch)
+            this.kunde = kunde
+            console.log('DetailsKundeComponent.kunde=', this.kunde)
 
             const titel =
-                this.buch === null ? 'Details' : `Details ${this.buch._id}`
+                this.kunde === null ? 'Details' : `Details ${this.kunde._id}`
             this.titleService.setTitle(titel)
         }
-        this.buchService.observeBuch(next)
+        this.kundeService.observeKunde(next)
     }
 
     private observeError() {
@@ -97,24 +97,24 @@ export default class DetailsBuchComponent implements OnInit {
 
             switch (err) {
                 case 404:
-                    this.errorMsg = 'Kein Buch gefunden.'
+                    this.errorMsg = 'Keinen Kunden gefunden.'
                     break
                 default:
                     this.errorMsg = 'Ein Fehler ist aufgetreten.'
                     break
             }
-            console.log(`DetailsBuchComponent.errorMsg: ${this.errorMsg}`)
+            console.log(`DetailsKundeComponent.errorMsg: ${this.errorMsg}`)
 
             this.titleService.setTitle('Fehler')
         }
 
-        this.buchService.observeError(next)
+        this.kundeService.observeError(next)
     }
 
     private observeIsAdmin() {
         const next: (event: Array<string>) => void = event => {
             this.isAdmin = event.includes(ROLLE_ADMIN)
-            console.log('DetailsBuchComponent.isAdmin:', this.isAdmin)
+            console.log('DetailsKundeComponent.isAdmin:', this.isAdmin)
         }
         this.authService.observeRollen(next)
     }

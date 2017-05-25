@@ -18,8 +18,8 @@
 import {Component, EventEmitter, Output} from '@angular/core'
 
 import {log} from '../../shared'
-import {BuchArt, Verlag} from '../shared/buch'
-import {BuchService} from '../shared/buch.service'
+import {Adresse, Umsatz} from '../shared/kunde'
+import {KundeService} from '../shared/kunde.service'
 
 /**
  * Komponente f&uuml;r das Tag <code>hs-suchkriterien</code>
@@ -29,11 +29,12 @@ import {BuchService} from '../shared/buch.service'
     templateUrl: './suchkriterien.component.html',
 })
 export default class SuchkriterienComponent {
-    titel: string|null = null
-    verlag: Verlag|null = null
-    art: BuchArt|null = null
-    javascript = false
-    typescript = false
+    nachname: string|null = null
+    adresse: Adresse|null = null
+    umsatz: Umsatz|null = null
+    lesen = false
+    sport = false
+    reisen = false
 
     // Event Binding: <hs-suchkriterien (waiting)="...">
     // Observables = Event-Streaming mit Promises
@@ -41,30 +42,31 @@ export default class SuchkriterienComponent {
 
     // DI: Constructor Injection (React hat uebrigens keine DI)
     // Empfehlung: Konstruktor nur fuer DI
-    constructor(private readonly buchService: BuchService) {
+    constructor(private readonly kundeService: KundeService) {
         console.log('SuchkriterienComponent.constructor()')
     }
 
     /**
-     * Suche nach B&uuml;chern, die den spezfizierten Suchkriterien entsprechen
-     * @param suchkriterien: Suchkriterien vom Typ IBuchForm
+     * Suche nach Kunden, die den spezfizierten Suchkriterien entsprechen
+     * @param suchkriterien: Suchkriterien vom Typ IKundeForm
      * @return false, um das durch den Button-Klick ausgel&ouml;ste Ereignis
      *         zu konsumieren.
      */
     @log
     onFind() {
         const suchkriterien: any = {
-            titel: this.titel,
-            verlag: this.verlag,
-            art: this.art,
-            javascript: this.javascript,
-            typescript: this.typescript,
+            nachname: this.nachname,
+            adresse: this.adresse,
+            umsatz: this.umsatz,
+            lesen: this.lesen,
+            sport: this.sport,
+            reisen: this.reisen,
         }
         console.log('suchkriterien=', suchkriterien)
 
         // Observables = Event-Streaming mit Promises
         this.waiting.emit(true)
-        this.buchService.find(suchkriterien)
+        this.kundeService.find(suchkriterien)
 
         // Inspektion der Komponente mit dem Tag-Namen "app" im Debugger
         // Voraussetzung: globale Variable ng deklarieren (s.o.)

@@ -52,61 +52,79 @@
 
         <form (submit)="onFind()" role="form">
             <div class="form-group row">
-                <label for="titelInput" class="col col-2 form-control-label">
-                    Titel
+                <label for="nachnameInput" class="col col-2 form-control-label">
+                    Nachname
                 </label>
                 <div class="col col-10">
                     <!-- type="search" funktioniert nicht mit Bootstrap -->
-                    <input id="titelInput"
-                        placeholder="Den Titel oder einen Teil davon eingeben"
-                        class="form-control" [(ngModel)]="titel" name="titel">
+                    <input id="nachnameInput"
+                        placeholder="Den Nachnamen oder einen Teil davon eingeben"
+                        class="form-control" [(ngModel)]="nachname" name="nachname">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col col-2 form-control-label">Verlag</label>
+                <label class="col col-2 form-control-label">Geschlecht</label>
                 <div class="col col-10">
-                    <select class="form-control" [(ngModel)]="verlag" name="verlag">
+                    <select class="form-control" [(ngModel)]="geschlecht" name="geschlecht">
                         <option value=""></option>
-                        <option value="IWI_VERLAG">Iwi Verlag</option>
-                        <option value="HSKA_VERLAG">Hska Verlag</option>
+                        <option value="M">Maennlich</option>
+                        <option value="W">Weiblich</option>
                     </select>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col col-2 form-control-label">Art</label>
+                <label class="col col-2 form-control-label">Familienstand</label>
                 <div class="col col-10">
                     <div class="radio">
                         <label class="radio-inline">
-                            <input type="radio" [(ngModel)]="art" name="art" value="DRUCKAUSGABE">
-                            Druckausgabe
+                            <input type="radio" [(ngModel)]="familienstand" name="familienstand" value="L">
+                            Ledig
                         </label>
                     </div>
                     <div class="radio">
                         <label class="radio-inline">
-                            <input type="radio" [(ngModel)]="art" name="art" value="KINDLE">
-                            Kindle
+                            <input type="radio" [(ngModel)]="familienstand" name="familienstand" value="VH">
+                            Verheiratet
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label class="radio-inline">
+                            <input type="radio" [(ngModel)]="familienstand" name="familienstand" value="G">
+                            Geschieden
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label class="radio-inline">
+                            <input type="radio" [(ngModel)]="familienstand" name="familienstand" value="VW">
+                            Verwittwet
                         </label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="schlagwoerterInput" class="col col-2 form-control-label">
-                    Schlagw&ouml;rter
+                <label for="interessenInput" class="col col-2 form-control-label">
+                    Interessen
                 </label>
                 <div class="col col-10">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" [(ngModel)]="javascript" name="javascript"/>
-                            JavaScript
+                            <input type="checkbox" [(ngModel)]="L" name="L"/>
+                            Lesen
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" [(ngModel)]="typescript" name="typescript"/>
-                            TypeScript
+                            <input type="checkbox" [(ngModel)]="S" name="S"/>
+                            Sport
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" [(ngModel)]="R" name="R"/>
+                            Reisen
                         </label>
                     </div>
                 </div>
@@ -115,7 +133,7 @@
             <div class="form-group row">
                 <div class="col col-10 offset-2">
                     <i class="fa fa-info-circle"></i>
-                    Hinweis: Keine Eingabe liefert alle B&uuml;cher
+                    Hinweis: Keine Eingabe liefert alle Kunden
                 </div>
             </div>
 
