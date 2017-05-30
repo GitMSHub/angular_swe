@@ -20,43 +20,43 @@ import {Title} from '@angular/platform-browser'
 import {ActivatedRoute, Params} from '@angular/router'
 
 import {isString, log} from '../../shared'
-import {Buch} from '../shared'
-import {BuchService} from '../shared/buch.service'
+import {Kunde} from '../shared'
+import {KundeService} from '../shared/kunde.service'
 
 /**
- * Komponente f&uuml;r das Tag <code>hs-update-buch</code> mit Kindkomponenten
+ * Komponente f&uuml;r das Tag <code>hs-update-kunde</code> mit Kindkomponenten
  * f&uuml;r die folgenden Tags:
  * <ul>
  *  <li> <code>hs-stammdaten</code>
- *  <li> <code>hs-schlagwoerter</code>
+ *  <li> <code>hs-interessen</code>
  * </ul>
  */
 @Component({
-    selector: 'hs-update-buch',
-    templateUrl: './update-buch.component.html',
+    selector: 'hs-update-kunde',
+    templateUrl: './update-kunde.component.html',
 })
-export default class UpdateBuchComponent implements OnInit {
-    buch: Buch|null = null
+export default class UpdateKundeComponent implements OnInit {
+    kunde: Kunde|null = null
     errorMsg: string|null = null
 
     constructor(
-        private readonly buchService: BuchService,
+        private readonly kundeService: KundeService,
         private readonly titleService: Title,
         private readonly route: ActivatedRoute) {
-        console.log('UpdateBuchComponent.constructor()')
+        console.log('UpdateKundeComponent.constructor()')
     }
 
     @log
     ngOnInit() {
-        // Die Beobachtung starten, ob es ein zu aktualisierendes Buch oder
+        // Die Beobachtung starten, ob es einen zu aktualisierenden Kunden oder
         // einen Fehler gibt.
-        this.observeBuch()
+        this.observeKunde()
         this.observeError()
 
-        // Pfad-Parameter aus /updateBuch/:id
+        // Pfad-Parameter aus /updateKunde/:id
         const next: (params: Params) => void = params => {
             console.log('params=', params)
-            this.buchService.findById(params.id)
+            this.kundeService.findById(params.id)
         }
 
         // ActivatedRoute.params is an Observable
@@ -65,20 +65,20 @@ export default class UpdateBuchComponent implements OnInit {
     }
 
     toString() {
-        return 'UpdateBuchComponent'
+        return 'UpdateKundeComponent'
     }
 
     /**
-     * Beobachten, ob es ein zu aktualisierendes Buch gibt.
+     * Beobachten, ob es einen zu aktualisierenden Kunden gibt.
      */
-    private observeBuch() {
-        const next: (buch: Buch) => void = buch => {
+    private observeKunde() {
+        const next: (kunde: Kunde) => void = kunde => {
             this.errorMsg = null
-            this.buch = buch
-            console.log('UpdateBuch.buch=', this.buch)
+            this.kunde = kunde
+            console.log('UpdateKunde.kunde=', this.kunde)
         }
 
-        this.buchService.observeBuch(next)
+        this.kundeService.observeKunde(next)
     }
 
     /**
@@ -86,7 +86,7 @@ export default class UpdateBuchComponent implements OnInit {
      */
     private observeError() {
         const next: (err: string|number) => void = err => {
-            this.buch = null
+            this.kunde = null
 
             if (err === null) {
                 this.errorMsg = 'Ein Fehler ist aufgetreten.'
@@ -100,15 +100,15 @@ export default class UpdateBuchComponent implements OnInit {
 
             switch (err) {
                 case 404:
-                    this.errorMsg = 'Kein Buch vorhanden.'
+                    this.errorMsg = 'Kein Kunde vorhanden.'
                     break
                 default:
                     this.errorMsg = 'Ein Fehler ist aufgetreten.'
                     break
             }
-            console.log(`UpdateBuchComponent.errorMsg: ${this.errorMsg}`)
+            console.log(`UpdateKundeComponent.errorMsg: ${this.errorMsg}`)
         }
 
-        this.buchService.observeError(next)
+        this.kundeService.observeError(next)
     }
 }

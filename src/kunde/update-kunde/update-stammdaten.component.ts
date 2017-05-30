@@ -21,8 +21,8 @@ import {Router} from '@angular/router'
 
 import {HOME_PATH} from '../../app/root.routing'
 import {isBlank, log} from '../../shared'
-import {Buch} from '../shared'
-import {BuchService} from '../shared/buch.service'
+import {Kunde} from '../shared'
+import {KundeService} from '../shared/kunde.service'
 
 /**
  * Komponente f&uuml;r das Tag <code>hs-stammdaten</code>
@@ -32,52 +32,50 @@ import {BuchService} from '../shared/buch.service'
     templateUrl: './update-stammdaten.component.html',
 })
 export default class UpdateStammdatenComponent implements OnInit {
-    // <hs-update-stammdaten [buch]="...">
-    @Input() buch: Buch
+    // <hs-update-stammdaten [kunde]="...">
+    @Input() kunde: Kunde
 
     form: FormGroup
-    titel: FormControl
-    art: FormControl
-    verlag: FormControl
-    rating: FormControl
+    nachname: FormControl
+    familienstand: FormControl
+    adresse: FormControl
 
     constructor(
         private readonly formBuilder: FormBuilder,
-        private readonly buchService: BuchService,
+        private readonly kundeService: KundeService,
         private readonly router: Router) {
         console.log('UpdateStammdatenComponent.constructor()')
     }
 
     /**
      * Das Formular als Gruppe von Controls initialisieren und mit den
-     * Stammdaten des zu &auml;ndernden Buchs vorbelegen.
+     * Stammdaten des zu &auml;ndernden Kunden vorbelegen.
      */
     @log
     ngOnInit() {
-        console.log('buch=', this.buch)
+        console.log('kunde=', this.kunde)
 
         // Definition und Vorbelegung der Eingabedaten
-        this.titel = new FormControl(this.buch.titel, Validators.compose([
+        this.nachname = new FormControl(this.kunde.nachname, Validators.compose([
             Validators.required, Validators.minLength(2),
             Validators.pattern(/^\w.*$/),
         ]))
-        this.art = new FormControl(this.buch.art, Validators.required)
-        this.verlag = new FormControl(this.buch.verlag)
-        this.rating = new FormControl(this.buch.rating)
+        // this.art = new FormControl(this.buch.art, Validators.required)
+        this.familienstand = new FormControl(this.kunde.familienstand)
+        this.adresse = new FormControl(this.kunde.adresse)
         // this.datum = new Control(this.buch.datum.toISOString())
 
         this.form = this.formBuilder.group({
             // siehe formControlName innerhalb von @Component({template: ...})
-            titel: this.titel,
-            art: this.art,
-            verlag: this.verlag,
-            rating: this.rating,
+            nachname: this.nachname,
+            familienstand: this.familienstand,
+            adresse: this.adresse,
             // datum: this.datum
         })
     }
 
     /**
-     * Die aktuellen Stammdaten f&uuml;r das angezeigte Buch-Objekt
+     * Die aktuellen Stammdaten f&uuml;r das angezeigte Kunde-Objekt
      * zur&uuml;ckschreiben.
      * @return false, um das durch den Button-Klick ausgel&ouml;ste Ereignis
      *         zu konsumieren.
@@ -89,17 +87,17 @@ export default class UpdateStammdatenComponent implements OnInit {
             return
         }
 
-        if (isBlank(this.buch)) {
-            console.error('buch === undefined/null')
+        if (isBlank(this.kunde)) {
+            console.error('kunde === undefined/null')
             return
         }
 
         // rating, preis und rabatt koennen im Formular nicht geaendert werden
-        this.buch.updateStammdaten(
-            this.titel.value, this.art.value, this.verlag.value,
-            this.rating.value, this.buch.datum, this.buch.preis,
-            this.buch.rabatt)
-        console.log('buch=', this.buch)
+        this.kunde.updateStammdaten(
+            this.nachname.value, undefined, undefined,
+            undefined, this.familienstand.value) // , this.buch.datum, this.buch.preis,
+            // this.buch.rabatt)
+        console.log('kunde=', this.kunde)
 
         const successFn = () => {
             console.log(`UpdateStammdaten: successFn: path: ${HOME_PATH}`)
@@ -107,7 +105,7 @@ export default class UpdateStammdatenComponent implements OnInit {
         }
         const errorFn: (status: number, text: string) => void | undefined =
             undefined as any
-        this.buchService.update(this.buch, successFn, errorFn)
+        this.kundeService.update(this.kunde, successFn, errorFn)
 
         // damit das (Submit-) Ereignis konsumiert wird und nicht an
         // uebergeordnete Eltern-Komponenten propagiert wird bis zum

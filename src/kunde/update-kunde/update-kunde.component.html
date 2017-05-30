@@ -14,8 +14,8 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<section *ngIf="buch !== null">
-    <h4>Buch {{buch._id}}:</h4>
+<section *ngIf="kunde !== null">
+    <h4>Kunde {{kunde._id}}:</h4>
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -23,9 +23,9 @@
                 Stammdaten
             </a>
         </li>
-        <li class="nav-item" *ngIf="buch.schlagwoerter.length !== 0">
-            <a class="nav-link" href="#schlagwoerter" data-toggle="tab">
-                Schlagw&ouml;rter
+        <li class="nav-item" *ngIf="kunde.interessen.length !== 0">
+            <a class="nav-link" href="#interessen" data-toggle="tab">
+                Interessen
             </a>
         </li>
     </ul>
@@ -33,14 +33,14 @@
     <div class="tab-content">
         <div class="tab-pane fade in active" id="stammdaten">
             <div class="mt-1">
-                <hs-update-stammdaten [buch]="buch">
+                <hs-update-stammdaten [kunde]="kunde">
                 </hs-update-stammdaten>
             </div>
         </div>
-        <div class="tab-pane fade" id="schlagwoerter">
+        <div class="tab-pane fade" id="interessen">
             <div class="mt-1">
-                <hs-update-schlagwoerter [buch]="buch">
-                </hs-update-schlagwoerter>
+                <hs-update-interessen [kunde]="kunde">
+                </hs-update-interessen>
             </div>
         </div>
     </div>

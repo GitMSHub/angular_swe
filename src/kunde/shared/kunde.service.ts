@@ -323,13 +323,10 @@ export class KundeService {
                 kunden.map(kunde => kunde._id) as Array<string>
             console.log('KundeService.createBarChart(): labels: ', labels)
             const betragData =
-                kunden.map(kunde => kunde.)
-
-            const ratingData =
-                buecher.map(buch => buch.rating) as Array<number>
+                kunden.map(kunde => kunde.umsatz.betrag) as Array<number>
 
             const datasets: Array<ChartDataSets> =
-                [{label: 'Bewertung', data: ratingData}]
+                [{label: 'Umsatz', data: betragData}]
             const config: ChartConfiguration = {
                 type: 'bar',
                 data: {labels, datasets},
@@ -347,21 +344,21 @@ export class KundeService {
      */
     @log
     createLinearChart(chartElement: HTMLCanvasElement) {
-        const uri = this.baseUriBuch
+        const uri = this.baseUriKunde
         const nextFn: ((response: Response) => void) = response => {
             if (response.status !== 200) {
                 console.error('response=', response)
                 return
             }
 
-            const buecher = this.responseToArrayBuch(response)
+            const kunden = this.responseToArrayKunde(response)
             const labels =
-                buecher.map(buch => buch._id) as Array<string>
-            const ratingData =
-                buecher.map(buch => buch.rating) as Array<number>
+                kunden.map(kunde => kunde._id) as Array<string>
+            const betragData =
+                kunden.map(kunde => kunde.umsatz.betrag) as Array<number>
 
             const datasets: Array<ChartDataSets> =
-                [{label: 'Bewertung', data: ratingData}]
+                [{label: 'Umsatz', data: betragData}]
 
             const config: ChartConfiguration = {
                 type: 'line',
@@ -381,24 +378,24 @@ export class KundeService {
      */
     @log
     createPieChart(chartElement: HTMLCanvasElement) {
-        const uri = this.baseUriBuch
+        const uri = this.baseUriKunde
         const nextFn: ((response: Response) => void) = response => {
             if (response.status !== 200) {
                 console.error('response=', response)
                 return
             }
 
-            const buecher = this.responseToArrayBuch(response)
+            const kunden = this.responseToArrayKunde(response)
             const labels =
-                buecher.map(buch => buch._id) as Array<string>
-            const ratingData =
-                buecher.map(buch => buch.rating) as Array<number>
+                kunden.map(kunde => kunde._id) as Array<string>
+            const betragData =
+                kunden.map(kunde => kunde.umsatz.betrag) as Array<number>
 
             const backgroundColor =
-                new Array<string>(ratingData.length)
+                new Array<string>(betragData.length)
             const hoverBackgroundColor =
-                new Array<string>(ratingData.length)
-            _.times(ratingData.length, i => {
+                new Array<string>(betragData.length)
+            _.times(betragData.length, i => {
                 backgroundColor[i] = this.diagrammService.getBackgroundColor(i)
                 hoverBackgroundColor[i] =
                     this.diagrammService.getHoverBackgroundColor(i)
@@ -407,7 +404,7 @@ export class KundeService {
             const data: any = {
                 labels,
                 datasets: [{
-                    data: ratingData,
+                    data: betragData,
                     backgroundColor,
                     hoverBackgroundColor,
                 }],

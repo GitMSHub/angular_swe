@@ -27,7 +27,7 @@ const config = {
     output_folder: 'reports',
     page_objects_path: [
         'test/auth/pages',
-        'test/buch/pages',
+        'test/kunde/pages',
         'test/shared/pages',
     ],
     globals_path: 'nightwatch.js',
